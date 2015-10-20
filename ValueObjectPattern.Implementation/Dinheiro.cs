@@ -47,5 +47,25 @@ namespace ValueObjectPattern.Implementation
         {
             return !Equals(dinheiro, outroDinheiro);
         }
+
+        public static bool operator >=(Dinheiro dinheiro, Dinheiro outroDinheiro)
+        {
+            return dinheiro.Valor >= outroDinheiro.Valor;
+        }
+
+        public static bool operator <=(Dinheiro dinheiro, Dinheiro outroDinheiro)
+        {
+            return dinheiro.Valor <= outroDinheiro.Valor;
+        }
+
+        public static implicit operator decimal (Dinheiro dinheiro)
+        {
+            return dinheiro.Valor;
+        }
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1:n2}", Moeda, Valor);
+        }
     }
 }

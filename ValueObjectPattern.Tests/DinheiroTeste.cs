@@ -63,5 +63,32 @@ namespace ValueObjectPattern.Tests
         {
             Assert.Throws<InvalidOperationException>(() => _dinheiro.SomarCom(_dinheiroDiferente));
         }
+
+        [Test]
+        public void Deve_formatar_como_string()
+        {
+            var dinheiro = new Dinheiro("R$", 10.50m);
+
+            var dinheiroComoString = dinheiro.ToString();
+
+            var esperado = string.Format("{0} {1:n2}", dinheiro.Moeda, dinheiro.Valor);
+            Assert.AreEqual(esperado, dinheiroComoString);
+        }
+
+        [TestCase(10.50, 11.50, true)]
+        [TestCase(10.50, 10.50, true)]
+        [TestCase(10.51, 10.50, false)]
+        public void Deve_comparar_valores_com_sinal_de_menor_ou_igual(decimal valorEsquerda, decimal valorDireita, bool esperado)
+        {
+            Assert.AreEqual(esperado, new Dinheiro("R$", valorEsquerda) <= new Dinheiro("R$", valorDireita));
+        }
+
+        [TestCase(10.51, 10.50, true)]
+        [TestCase(10.50, 10.50, true)]
+        [TestCase(10.50, 11.50, false)]
+        public void Deve_comparar_valores_com_sinal_de_maior_ou_igual(decimal valorEsquerda, decimal valorDireita, bool esperado)
+        {
+            Assert.AreEqual(esperado, new Dinheiro("R$", valorEsquerda) >= new Dinheiro("R$", valorDireita));
+        }
     }
 }
